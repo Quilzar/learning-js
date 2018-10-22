@@ -50,14 +50,19 @@ const generateToDoDom = function (toDo) {
     const textElement = document.createElement('span')
     const buttonElement = document.createElement('button')
 
+    // add uid to toDoElement
+    toDoElement.setAttribute('id', toDo.id)
+
     // add in checkbox element and check it if it is completed
     checkboxElement.setAttribute('type', 'checkbox')
-
-    if (toDo.completed) {
-        checkboxElement.setAttribute('checked','')
-    }
-
+    checkboxElement.checked = toDo.completed
     toDoElement.appendChild(checkboxElement)
+    checkboxElement.addEventListener('change', function() {
+        toggleToDo(toDo.id)
+        saveToDos(toDos)
+        renderToDos(toDos, filters)
+    })
+
 
     // add in text element
     textElement.textContent = toDo.text 
@@ -65,9 +70,36 @@ const generateToDoDom = function (toDo) {
 
     // add in button element
     buttonElement.textContent = 'x'
-    toDoElement.appendChild(buttonElement)
+    buttonElement.addEventListener('click', function() {
+        removeToDo(toDo.id)
+        saveToDos(toDos)
+        renderToDos(toDos, filters)
+    })
 
+    toDoElement.appendChild(buttonElement)
     return toDoElement
+}
+
+// toggle toDo.completed
+const toggleToDo = function (id) {
+    const toDo = toDos.find(function (toDo) {
+        return toDo.id === id
+    })
+
+    if (toDo !== undefined) {
+        toDo.completed = !toDo.completed
+    }
+}
+
+// remove toDo based on the id
+const removeToDo = function (id) {
+    const toDoIndex = toDos.findIndex(function (toDo) {
+        return toDo.id === id
+    })
+
+    if (toDoIndex > -1) {
+        toDos.splice(toDoIndex, 1)
+    }
 }
 
 // generateSummaryDom based on incomplete toDos
