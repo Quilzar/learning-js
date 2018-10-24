@@ -3,11 +3,7 @@ const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes')
 
     // parse notes if found in local storage or return empty array
-    if (notesJSON !== null) {
-        return JSON.parse(notesJSON)
-    } else {
-        return []
-    }
+    return notesJSON ? JSON.parse(notesJSON) : []
 }
 
 // save notes to localStorage
@@ -108,4 +104,4 @@ const renderNotes = (notes, filters) => {
 }
 
 // generate last edited string
-const generateLastEdited = (timeStamp) => `Last Edited ${moment(timeStamp).fromNow()}.`
+const generateLastEdited = (timeStamp) => `Last edited ${moment(timeStamp).fromNow()}.`

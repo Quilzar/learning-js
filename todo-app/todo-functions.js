@@ -1,25 +1,19 @@
 // get toDos from location storage returns empty array if it does not
-const getSavedToDos = function () {
+const getSavedToDos = () => {
     // check to see if toDos exist in local storage
     const toDosJSON = localStorage.getItem('toDos')
-
-    // parse if they do return empty if they do not
-    if (toDosJSON !== null) {
-        return JSON.parse(toDosJSON)
-    } else {
-        return []
-    }
+    return toDosJSON ? JSON.parse(toDosJSON) : []
 }
 
 // save toDos to local storage
-const saveToDos = function (toDos) {
+const saveToDos = (toDos) => {
     localStorage.setItem('toDos', JSON.stringify(toDos))
 }
 
 // filter and render to dos
-const renderToDos = function (toDos, filters) {
+const renderToDos = (toDos, filters) => {
     // create filteredToDos based on the filters object
-    const filteredToDos = toDos.filter(function (toDo) {
+    const filteredToDos = toDos.filter((toDo) => {
         const searchTextMatch = toDo.text.toLowerCase().includes(filters.searchText.toLowerCase())
         const hideCompletedMatch = !filters.hideCompleted || !toDo.completed
 
@@ -27,9 +21,7 @@ const renderToDos = function (toDos, filters) {
     })
 
     // create toDosIncomplete
-    const toDosIncomplete = filteredToDos.filter(function (toDo) {
-        return !toDo.completed
-    })
+    const toDosIncomplete = filteredToDos.filter((toDo) => !toDo.completed)
 
     // clear out div tag
     document.querySelector('#to-dos').innerHTML = ''
@@ -38,13 +30,11 @@ const renderToDos = function (toDos, filters) {
     document.querySelector('#to-dos').appendChild(generateSummaryDom(toDosIncomplete))
     
     // write out filteredToDos to #to-dos div tag
-    filteredToDos.forEach(function (toDo) {
-        document.querySelector('#to-dos').appendChild(generateToDoDom(toDo))
-    })
+    filteredToDos.forEach((toDo) => document.querySelector('#to-dos').appendChild(generateToDoDom(toDo)))
 }
 
 // generate toDo DOM elements
-const generateToDoDom = function (toDo) {
+const generateToDoDom = (toDo) => {
     const toDoElement = document.createElement('div')
     const checkboxElement = document.createElement('input')
     const textElement = document.createElement('span')
@@ -57,7 +47,7 @@ const generateToDoDom = function (toDo) {
     checkboxElement.setAttribute('type', 'checkbox')
     checkboxElement.checked = toDo.completed
     toDoElement.appendChild(checkboxElement)
-    checkboxElement.addEventListener('change', function() {
+    checkboxElement.addEventListener('change',() => {
         toggleToDo(toDo.id)
         saveToDos(toDos)
         renderToDos(toDos, filters)
@@ -70,7 +60,7 @@ const generateToDoDom = function (toDo) {
 
     // add in button element
     buttonElement.textContent = 'x'
-    buttonElement.addEventListener('click', function() {
+    buttonElement.addEventListener('click', () => {
         removeToDo(toDo.id)
         saveToDos(toDos)
         renderToDos(toDos, filters)
@@ -81,21 +71,17 @@ const generateToDoDom = function (toDo) {
 }
 
 // toggle toDo.completed
-const toggleToDo = function (id) {
-    const toDo = toDos.find(function (toDo) {
-        return toDo.id === id
-    })
+const toggleToDo = (id) => {
+    const toDo = toDos.find((toDo) => toDo.id === id)
 
-    if (toDo !== undefined) {
+    if (toDo) {
         toDo.completed = !toDo.completed
     }
 }
 
 // remove toDo based on the id
-const removeToDo = function (id) {
-    const toDoIndex = toDos.findIndex(function (toDo) {
-        return toDo.id === id
-    })
+const removeToDo = (id) => {
+    const toDoIndex = toDos.findIndex((toDo) => toDo.id === id)
 
     if (toDoIndex > -1) {
         toDos.splice(toDoIndex, 1)
@@ -103,7 +89,7 @@ const removeToDo = function (id) {
 }
 
 // generateSummaryDom based on incomplete toDos
-const generateSummaryDom = function (toDosIncomplete) {
+const generateSummaryDom = (toDosIncomplete) => {
     const summaryElement = document.createElement('h2')
     summaryElement.textContent = `You have ${toDosIncomplete.length} things left to do!`
     return summaryElement

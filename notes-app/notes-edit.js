@@ -14,7 +14,7 @@ let notes = getSavedNotes()
 let note = notes.find((note) => note.id === noteId)
 
 // redirect if not
-if (note === undefined) {
+if (!note) {
     location.assign('index.html')
 }
 
@@ -56,7 +56,7 @@ window.addEventListener('storage', (e) => {
         note = notes.find((note) => note.id === noteId)
 
         // reditect if not
-        if (note === undefined) {
+        if (!note) {
             location.assign('index.html')
         }
 

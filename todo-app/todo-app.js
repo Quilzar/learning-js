@@ -10,16 +10,18 @@ const filters = {
 renderToDos(toDos, filters)
 
 // listen to #filter-todo
-document.querySelector('#filter-todo').addEventListener('input', function(e) {
+document.querySelector('#filter-todo').addEventListener('input', (e) => {
     filters.searchText = e.target.value
 
     renderToDos(toDos, filters)
 })
 
 // listen to #add-todo
-document.querySelector('#add-todo').addEventListener('submit', function(e) {
+document.querySelector('#add-todo').addEventListener('submit', (e) => {
+    // prevent default behaviour
     e.preventDefault()
 
+    // add new toDo
     toDos.push({
         id: uuidv4(),
         text: e.target.elements.newToDo.value,
