@@ -11,9 +11,7 @@ const noteId = location.hash.substring(1)
 let notes = getSavedNotes()
 
 // does my note actually exist?
-let note = notes.find(function (note) {
-    return note.id === noteId
-})
+let note = notes.find((note) => note.id === noteId)
 
 // redirect if not
 if (note === undefined) {
@@ -26,7 +24,7 @@ bodyElement.value = note.body
 lastEditedElement.textContent = generateLastEdited(note.updatedAt)
 
 // listen to notes title input
-titleElement.addEventListener('input', function(e) {
+titleElement.addEventListener('input', (e) => {
     note.title = e.target.value
     note.updatedAt = moment().valueOf()
     lastEditedElement.textContent = generateLastEdited(note.updatedAt)
@@ -34,7 +32,7 @@ titleElement.addEventListener('input', function(e) {
 })
 
 // listen to notes body text area
-bodyElement.addEventListener('input', function(e) {
+bodyElement.addEventListener('input', (e) => {
     note.body = e.target.value
     note.updatedAt = moment().valueOf()
     lastEditedElement.textContent = generateLastEdited(note.updatedAt)
@@ -42,22 +40,20 @@ bodyElement.addEventListener('input', function(e) {
 })
 
 // listen to remove note button
-removeNoteElement.addEventListener('click', function (e) {
+removeNoteElement.addEventListener('click', (e) => {
     removeNote(note.id)
     saveNotes(notes)
     location.assign('index.html')
 })
 
 // if local storage changes update titleElement and bodyElement
-window.addEventListener('storage', function (e) {
+window.addEventListener('storage', (e) => {
     if (e.key === 'notes') {
         // read in new value
         notes = JSON.parse(e.newValue)
 
         // does my note actually exist?
-        note = notes.find(function (note) {2
-            return note.id === noteId
-        })
+        note = notes.find((note) => note.id === noteId)
 
         // reditect if not
         if (note === undefined) {
