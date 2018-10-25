@@ -1,8 +1,28 @@
+'use strict'
+
 // get toDos from location storage returns empty array if it does not
 const getSavedToDos = () => {
-    // check to see if toDos exist in local storage
+    // get toDos from local storage if it exists
     const toDosJSON = localStorage.getItem('toDos')
-    return toDosJSON ? JSON.parse(toDosJSON) : []
+    
+    try {    
+        // parse notes if found in local storage or return empty array
+        return toDosJSON ? JSON.parse(toDosJSON) : []
+    } catch (err) {
+        return []
+    }
+}
+
+// read existing notes from local storage
+const getSavedNotes = () => {
+    const notesJSON = localStorage.getItem('notes')
+
+    try {
+        // parse notes if found in local storage or return empty array
+        return notesJSON ? JSON.parse(notesJSON) : []
+    } catch (err) {
+        return []
+    }
 }
 
 // save toDos to local storage

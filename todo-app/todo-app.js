@@ -1,3 +1,5 @@
+'use strict'
+
 // create toDos object
 const toDos = getSavedToDos()
 

@@ -1,9 +1,16 @@
+'use strict'
+
 // read existing notes from local storage
 const getSavedNotes = () => {
+    // get notes from local storage if it exists
     const notesJSON = localStorage.getItem('notes')
 
-    // parse notes if found in local storage or return empty array
-    return notesJSON ? JSON.parse(notesJSON) : []
+    try {
+        // parse notes if found in local storage or return empty array
+        return notesJSON ? JSON.parse(notesJSON) : []
+    } catch (err) {
+        return []
+    }
 }
 
 // save notes to localStorage
